@@ -16,7 +16,13 @@ def convert_file_path_to_absolute_path(path):
 
 def read_application_config_json_to_env():
     import json
-    with open(convert_file_path_to_absolute_path("~/article_rec.json"), "r") as f:
+    config_path = convert_file_path_to_absolute_path("~/article_rec.json")
+    
+    if not os.path.exists(config_path):
+        logging.warning("No config file found at %s", config_path)
+        return
+
+    with open(config_path, "r") as f:
         config = json.load(f)
         for key, value in config.items():
             os.environ[key] = value
