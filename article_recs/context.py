@@ -47,7 +47,11 @@ class Context:
         token = os.environ.get("TELEGRAM_TOKEN", "")
         chat_id = os.environ.get("TELEGRAM_CHAT_ID", "")
 
-        self.telegram_target = TelegramTarget(token, chat_id, self.messageHandler)
+        if token == "" or chat_id == "":
+            logging.warning("No telegram token or chat id found")
+            self.telegram_target = None
+        else:
+            self.telegram_target = TelegramTarget(token, chat_id, self.messageHandler)
 
     def start_telegram_target(self):
         self.telegram_target.start()
