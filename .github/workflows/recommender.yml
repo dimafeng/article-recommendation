@@ -1,6 +1,5 @@
 
 name: Recommender
-runs-on: self-hosted
 
 on:
 
