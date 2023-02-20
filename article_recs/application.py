@@ -10,11 +10,11 @@ def main():
     
     context = Context()
     
-    schedule.every(10).seconds.do(lambda: crawler.main(context))
-    schedule.every(10).seconds.do(lambda: crawler_reddit.main(context))
-    schedule.every(10).seconds.do(lambda: content_extractor.main(context))
-    schedule.every(10).seconds.do(lambda: candidate_generator.main(context))
-    schedule.every(10).seconds.do(lambda: recommender.main(context))
+    schedule.every(2).hours.do(lambda: crawler.main(context))
+    schedule.every(2).hours.do(lambda: crawler_reddit.main(context))
+    schedule.every(10).minutes.do(lambda: content_extractor.main(context))
+    schedule.every(10).minutes.do(lambda: candidate_generator.main(context))
+    schedule.every(60).minutes.do(lambda: recommender.main(context))
 
     # start telegram target in the background thread
     threading.Thread(target=context.start_telegram_target).start()
