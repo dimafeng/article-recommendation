@@ -11,4 +11,10 @@ jobs:
     steps:
       -
         name: Get the output time
+        run: pwd
+      -
+        name: Get the output time
+        run: ls
+      -
+        name: Get the output time
         run: docker build -t application .
