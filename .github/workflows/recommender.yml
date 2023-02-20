@@ -3,8 +3,8 @@ name: Recommender
 
 on:
 
-  push:
-     branches: '*'
+  # push:
+  #    branches: '*'
 
   schedule:
     - cron:  '0 */4 * * *'
