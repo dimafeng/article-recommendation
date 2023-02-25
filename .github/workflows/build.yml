@@ -26,5 +26,5 @@ jobs:
         name: Build and push
         uses: docker/build-push-action@v4
         with:
-          push: true
+          push: ${{ github.ref == 'refs/heads/master' }}
           tags: ${{ secrets.REGISTRY_ADDRESS }}/article-recs:latest
