@@ -31,16 +31,15 @@ class MostPopularScorer(Scorer):
 
                 self._database.update_candidate(content.id, {"hn_score": hn_score, "time_weighted_score": time_weighted_score})
             if content.source == "reddit":
-                pass
-                # data = content.data['reddit_data']
-                # reddit_score = data.get("score", 0)
-                # time_factor = seconds_to_hours(time.time() - data.get("time", 0)) + 1
-                # time_weighted_score = reddit_score / time_factor
+                data = content.data['reddit_data']
+                reddit_score = data.get("score", 0)
+                time_factor = seconds_to_hours(time.time() - data.get("time", 0)) + 1
+                time_weighted_score = reddit_score / time_factor
 
-                # if data.get("url", None) == None:
-                #     time_weighted_score = 0
+                if data.get("url", None) == None:
+                    time_weighted_score = 0
 
-                # if data.get("top_image", None) == None:
-                #     time_weighted_score = time_weighted_score / 2
+                if data.get("top_image", None) == None:
+                    time_weighted_score = time_weighted_score / 2
 
-                # self._database.update_candidate(content.id, {"reddit_score": reddit_score, "time_weighted_score": time_weighted_score})
+                self._database.update_candidate(content.id, {"reddit_score": reddit_score, "time_weighted_score": time_weighted_score})
