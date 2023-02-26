@@ -18,7 +18,6 @@ class MostPopularScorer(Scorer):
         for content in contents:
             logger.info(f"Scoring {content.id}")
             if content.source == "hackernews":
-                continue
                 data = content.data['hackernews_data']
                 hn_score = data.get("score", 0)
                 time_factor = seconds_to_hours(time.time() - data.get("time", 0)) + 1
