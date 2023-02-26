@@ -18,6 +18,7 @@ class MostPopularScorer(Scorer):
         for content in contents:
             logger.info(f"Scoring {content.id}")
             if content.source == "hackernews":
+                continue
                 data = content.data['hackernews_data']
                 hn_score = data.get("score", 0)
                 time_factor = seconds_to_hours(time.time() - data.get("time", 0)) + 1
@@ -30,9 +31,10 @@ class MostPopularScorer(Scorer):
                     time_weighted_score = time_weighted_score / 2
 
                 self._database.update_candidate(content.id, {"hn_score": hn_score, "time_weighted_score": time_weighted_score})
-            if content.source == "reddit":
+            if content.source == "reddit_v2":
                 data = content.data['reddit_data']
                 reddit_score = data.get("score", 0)
+                logger.info(f"Reddit score: {reddit_score}")
                 time_factor = seconds_to_hours(time.time() - data.get("time", 0)) + 1
                 time_weighted_score = reddit_score / time_factor
 
