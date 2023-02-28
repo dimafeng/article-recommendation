@@ -13,6 +13,8 @@ newspaper3k = "^0.2.8"
 python-telegram-bot = "^13.14"
 schedule = "^1.1.0"
 tenacity = "^8.1.0"
+fastapi = "^0.92.0"
+uvicorn = "^0.20.0"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"

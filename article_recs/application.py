@@ -4,6 +4,9 @@ import schedule
 import time
 from article_recs import candidate_generator, content_extractor, crawler, recommender, crawler_reddit
 from article_recs.context import Context
+import uvicorn
+
+from article_recs.web import Controller
 
 def exception_handler_wrapper(callable):
     def wrapper(*args, **kwargs):
@@ -25,7 +28,12 @@ def main():
 
     # start telegram target in the background thread
     threading.Thread(target=context.start_telegram_target).start()
- 
+    threading.Thread(target=run_pending).start()
+
+    Controller(context)
+    uvicorn.run(context.app, host="0.0.0.0", port=8000)
+
+def run_pending():
     while True:
         schedule.run_pending()
         time.sleep(1)

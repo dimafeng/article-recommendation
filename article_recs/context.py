@@ -1,6 +1,7 @@
 import logging
 import os
 import threading
+from fastapi import FastAPI
 from sqlalchemy import create_engine
 
 from article_recs.db.db import Database
@@ -46,6 +47,8 @@ class Context:
         self.messageHandler = MessageHandler(self.database)
         token = os.environ.get("TELEGRAM_TOKEN", "")
         chat_id = os.environ.get("TELEGRAM_CHAT_ID", "")
+
+        self.app = FastAPI()
 
         if token == "" or chat_id == "":
             logging.warning("No telegram token or chat id found")

@@ -77,6 +77,10 @@ class Database(object):
             session.add(Event(type="signal", data={"signal_type": signal_type, "data": data}))
             session.commit()
 
+    def get_signals(self, page: int, page_size: int) -> list[Signal]:
+        with self.Session() as session:
+            return session.query(Signal).order_by(Signal.created.desc()).offset(page * page_size).limit(page_size).all()
+
     def update_candidate(self, content_id: str, scores: dict):
         with self.Session() as session:
             candidate = session.query(Candidate).get(content_id)
@@ -98,6 +102,10 @@ class Database(object):
     def get_latest_candidates(self, limit: int):
         with self.Session() as session:
             return session.query(Candidate).order_by(Candidate.created.desc()).limit(limit).all()
+
+    def get_candidates(self, page: int, page_size: int) -> list[Candidate]:
+        with self.Session() as session:
+            return session.query(Candidate).order_by(Candidate.created.desc()).offset(page * page_size).limit(page_size).all()
 
     def get_all_candidates(self):
         with self.Session() as session:
