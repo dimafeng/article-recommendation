@@ -49,7 +49,10 @@ class Database(object):
         with self.Session() as session:
             return session.query(Content).filter(Content.id.in_(content_ids)).all()
 
-    def read_latest_events(self, consumer_id: str, event_type: str, limit: int):
+    def read_latest_events(self, consumer_id: str, event_type: str, limit: int, save_checkpoint: bool = True):
+        if consumer_id is None or consumer_id == "" or event_type is None or event_type == "":
+            raise Exception("Invalid consumer_id or event_type")
+        
         with self.Session() as session:
             event_consumers = session.query(EventConsumer).filter(EventConsumer.id == consumer_id).all()
             if(len(event_consumers) == 0):
@@ -66,11 +69,22 @@ class Database(object):
             for e in events:
                 session.expunge(e)
 
-            event_consumer.checkpoint = events[-1].id
-            session.commit()
+            if(save_checkpoint):
+                event_consumer.checkpoint = events[-1].id
+                session.commit()
 
             return events
     
+    def checkpoint(self, consumer_id: str, event_type: str, checkpoint: int):
+        with self.Session() as session:
+            event_consumers = session.query(EventConsumer).filter(EventConsumer.id == consumer_id).all()
+            if(len(event_consumers) == 0):
+                session.add(EventConsumer(id=consumer_id, event_type=event_type, checkpoint=checkpoint))
+            else:
+                event_consumer = event_consumers[0]
+                event_consumer.checkpoint = checkpoint
+            session.commit()
+
     def record_signal(self, signal_type: str, data: dict):
         with self.Session() as session:
             session.add(Signal(signal_type=signal_type, data=data))
