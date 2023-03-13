@@ -29,10 +29,16 @@ class TelegramTarget(Target):
 
     def _get_markups(self, content_id: str):
         markup = []
+        markup.append(InlineKeyboardButton(text="🔥", callback_data=json.dumps(
+            {"content_id": content_id, "vote": "fire"})))
         markup.append(InlineKeyboardButton(text="👍", callback_data=json.dumps(
             {"content_id": content_id, "vote": "up"})))
         markup.append(InlineKeyboardButton(text="👎", callback_data=json.dumps(
             {"content_id": content_id, "vote": "down"})))
+        markup.append(InlineKeyboardButton(text="❌", callback_data=json.dumps(
+            {"content_id": content_id, "vote": "block"})))
+        markup.append(InlineKeyboardButton(text="Paywall", callback_data=json.dumps(
+            {"content_id": content_id, "vote": "paywall"})))
         return markup
 
     def send(self, content_id: str, text: str, image_url: str = None):
