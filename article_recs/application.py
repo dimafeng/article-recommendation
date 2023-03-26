@@ -22,7 +22,7 @@ def main():
     
     schedule.every(2).hours.do(exception_handler_wrapper(lambda: crawler.main(context)))
     schedule.every(2).hours.do(exception_handler_wrapper(lambda: crawler_reddit.main(context)))
-    schedule.every(10).minutes.do(exception_handler_wrapper(lambda: content_extractor.main(context)))
+    schedule.every(3).minutes.do(exception_handler_wrapper(lambda: content_extractor.main(context)))
     schedule.every(10).minutes.do(exception_handler_wrapper(lambda: candidate_generator.main(context)))
     schedule.every(60).minutes.do(exception_handler_wrapper(lambda: recommender.main(context)))
 

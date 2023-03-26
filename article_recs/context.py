@@ -3,6 +3,7 @@ import os
 import threading
 from fastapi import FastAPI
 from sqlalchemy import create_engine
+from article_recs.content_extraction.scraper import PaywallScraperStrategy, SeleniumScraper, SimpleScraper
 
 from article_recs.db.db import Database
 from article_recs.db.models import Base
@@ -32,6 +33,7 @@ class Context:
 
     def __init__(self) -> None:
         logging.basicConfig(format='%(asctime)s [%(levelname)s] %(module)s: %(message)s', level=logging.INFO)
+        #logging.getLogger('sqlalchemy.engine').setLevel(logging.INFO)
         logging.info("Starting application")
         
         read_application_config_json_to_env()
@@ -47,6 +49,12 @@ class Context:
         self.messageHandler = MessageHandler(self.database)
         token = os.environ.get("TELEGRAM_TOKEN", "")
         chat_id = os.environ.get("TELEGRAM_CHAT_ID", "")
+
+        selenium_url = os.environ.get("SELENIUM_URL", "http://localhost:4444/wd/hub")
+
+        selenium_scraper = SeleniumScraper(selenium_url)
+        simple_scraper = SimpleScraper()
+        self.scraper = PaywallScraperStrategy(simple_scraper, selenium_scraper)
 
         self.app = FastAPI()
 

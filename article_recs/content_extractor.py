@@ -1,42 +1,20 @@
 import logging
-import time
+
 from article_recs.context import Context
 from article_recs.db.models import Content
 
 
-from newspaper import Article
-
-
 def extract_text(content: Content, context: Context):
     if (content.url == ""):
-        return
+         return
     
-    logging.info()
+    context.scraper.load(content.url)
 
-    article = Article(content.url)
-    try:
-        article.download()
-        article.parse()
-        article.nlp()
-    except:
-        logging.error("Error while downloading article %s", content.url)
-        return
-
-    data = {}
-    if (article.publish_date != None):
-        data["publish_date"] = article.publish_date.isoformat()
-
-    if (article.text != None):
-        data["text"] = article.text
-
-    if (article.top_image != None):
-        data["top_image"] = article.top_image
-
-    if (article.keywords != None): 
-        data["keywords"] = article.keywords
+    data = context.scraper.get_meta_data()
+    logging.info(f"Extracted text for {content.id}: {data}")
     
-    if (article.summary != None):
-        data["summary"] = article.summary
+    data["text"] = context.scraper.get_plain_text()
+    data["html"] = context.scraper.get_article_html()
 
     context.database.update_content(content.id, data)
 
@@ -44,7 +22,7 @@ def extract_text(content: Content, context: Context):
 def main(context: Context):
     logging.info("Starting content extractor")
 
-    events = context.database.read_latest_events("content_extractor", "content_added", 100)
+    events = context.database.read_latest_events("content_extractor_test", "content_added", 30)
     if len(events) == 0:
         logging.info("No new events")
         return
@@ -55,7 +33,7 @@ def main(context: Context):
         try:
             extract_text(content, context)
         except Exception as e:
-            logging.error("Error while extracting text for", content_id, e)
+            logging.error(f"Error while extracting text for {content_id}: {str(e)}")
 
 
 
