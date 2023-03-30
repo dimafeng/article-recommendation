@@ -25,6 +25,7 @@ def main():
     summarizer = Summarizer()
 
     while True:
+        print('Processing events...')
         process_events(api, summarizer)
         time.sleep(5)
 
