@@ -1,0 +1,13 @@
+version: '3'
+services:
+  notebook:
+    image: datamachines/jupyter_to:2.8.0_4.5.5-20220318
+    deploy:
+      resources:
+          limits:
+            cpus: '8'
+            memory: 16384M
+    ports:
+      - "8888:8888"
+    volumes:
+      - ./:/dmc
