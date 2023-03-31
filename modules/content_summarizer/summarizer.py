@@ -23,6 +23,10 @@ class Summarizer():
         return summary
 
     def summarize(self, text):
+        if text is None or len(text) == 0:
+            return ""
         summarizer = pipeline("summarization", model="facebook/bart-large-cnn")
-        long_summary = self.__summarize_long_text(text)
-        return summarizer(long_summary, max_length=250, min_length=60, do_sample=False)['summary_text']
+        summary = text
+        if len(text) > 1024:
+            summary = self.__summarize_long_text(text)
+        return summarizer(summary, max_length=250, min_length=60, do_sample=False)[0].get('summary_text')

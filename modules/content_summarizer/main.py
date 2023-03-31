@@ -21,7 +21,7 @@ def process_events(api: API, summarizer: Summarizer):
                 api.update_content(content["id"], {'summary': summary})
 
 def main():
-    api = API(os.environ.get("API_BASE_URL", ""))
+    api = API(os.environ["API_BASE_URL"])
     summarizer = Summarizer()
 
     while True:
