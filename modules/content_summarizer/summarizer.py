@@ -34,6 +34,10 @@ class Summarizer():
             summary = text
             if len(text) > 1024:
                 summary = self.__summarize_long_text(text)
+
+            if len(summary) < 250:
+                return summary
+
             return summarizer(summary, max_length=250, min_length=60, do_sample=False)[0].get('summary_text')
         except Exception as e:
             print(e)
