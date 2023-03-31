@@ -23,14 +23,18 @@ class Summarizer():
         return summary
 
     def summarize(self, text):
-        if text is None or len(text) == 0:
-            return ""
-        
-        if len(text) < 250:
-            return text
+        try:
+            if text is None or len(text) == 0:
+                return None
+            
+            if len(text) < 250:
+                return text
 
-        summarizer = pipeline("summarization", model="facebook/bart-large-cnn")
-        summary = text
-        if len(text) > 1024:
-            summary = self.__summarize_long_text(text)
-        return summarizer(summary, max_length=250, min_length=60, do_sample=False)[0].get('summary_text')
+            summarizer = pipeline("summarization", model="facebook/bart-large-cnn")
+            summary = text
+            if len(text) > 1024:
+                summary = self.__summarize_long_text(text)
+            return summarizer(summary, max_length=250, min_length=60, do_sample=False)[0].get('summary_text')
+        except Exception as e:
+            print(e)
+            return None

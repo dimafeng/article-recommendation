@@ -17,6 +17,8 @@ def process_events(api: API, summarizer: Summarizer):
             if not data.get('text', None) is None:
                 print(f'Summarizing {content["id"]}')
                 summary = summarizer.summarize(data.get('text', None))
+                if summary is None:
+                    continue
                 print(f'Saving: {summary}')
                 api.update_content(content["id"], {'summary': summary})
 
