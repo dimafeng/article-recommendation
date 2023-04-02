@@ -21,6 +21,8 @@ class EventReader(object):
         })
 
     def __exit__(self, *args):
+        if len(self.request) == 0:
+            return
         last_event = self.request[-1]
         self.__checkpoint(last_event['id'])
 

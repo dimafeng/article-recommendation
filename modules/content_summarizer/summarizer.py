@@ -5,7 +5,7 @@ class Summarizer():
         model = "facebook/bart-large-cnn"
         self.tokenizer = AutoTokenizer.from_pretrained(model)
         self.model = AutoModelForSeq2SeqLM.from_pretrained(model)
-        self.summarizer = pipeline("summarization", model="facebook/bart-large-cnn")
+        self.summarizer = pipeline("summarization", model=model)
 
     def __summarize_long_text(self, long_text, max_length=1024):
         # initialize T5 model and tokenizer
@@ -30,7 +30,6 @@ class Summarizer():
             if len(text) < 250:
                 return text
 
-            summarizer = pipeline("summarization", model="facebook/bart-large-cnn")
             summary = text
             if len(text) > 1024:
                 summary = self.__summarize_long_text(text)
@@ -38,7 +37,7 @@ class Summarizer():
             if len(summary) < 250:
                 return summary
 
-            return summarizer(summary, max_length=250, min_length=60, do_sample=False)[0].get('summary_text')
+            return self.summarizer(summary, max_length=250, min_length=60, do_sample=False)[0].get('summary_text')
         except Exception as e:
             print(e)
             return None
