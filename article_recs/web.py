@@ -12,6 +12,10 @@ class ContentUpdateRequest(BaseModel):
     content_id: str
     data: dict
 
+class CandidateUpdateRequest(BaseModel):
+    content_id: str
+    scores: dict
+
 class Controller:
     def __init__(self, context: Context):
         self.context = context
@@ -51,6 +55,6 @@ class Controller:
             return {"result": "ok"}
 
         @context.app.post("/candidates/update")
-        def update_candidates(content_id: str, scores: dict):
-            self.context.database.update_candidate(content_id, scores)
+        def update_candidates(request: CandidateUpdateRequest):
+            self.context.database.update_candidate(request.content_id, request.scores)
             return {"result": "ok"}
