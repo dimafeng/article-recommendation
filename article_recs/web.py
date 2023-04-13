@@ -49,3 +49,8 @@ class Controller:
                 checkpoint_request.checkpoint
                 )
             return {"result": "ok"}
+
+        @context.app.post("/candidates/update")
+        def update_candidates(content_id: str, scores: dict):
+            self.context.database.update_candidate(content_id, scores)
+            return {"result": "ok"}
