@@ -21,13 +21,13 @@ jobs:
         with:
           username: ${{ secrets.REGISTRY_USERNAME }}
           password: ${{ secrets.REGISTRY_TOKEN }}
-          registry: ${{ secrets.REGISTRY_ADDRESS }}
+ #         registry: ${{ secrets.REGISTRY_ADDRESS }}
       -
         name: Build and push - Core
         uses: docker/build-push-action@v4
         with:
           push: ${{ github.ref == 'refs/heads/master' }}
-          tags: ${{ secrets.REGISTRY_ADDRESS }}/article-recs:latest
+          tags: dimafeng/article-recommendation:latest
 
       -
         name: Build and push - Content Summarization
@@ -35,4 +35,4 @@ jobs:
         with:
           context: "{{defaultContext}}:modules/content_summarizer"
           push: ${{ github.ref == 'refs/heads/master' }}
-          tags: ${{ secrets.REGISTRY_ADDRESS }}/article-recs-summarizer:latest
+          tags: dimafeng/article-recommendation-summarizer:latest
