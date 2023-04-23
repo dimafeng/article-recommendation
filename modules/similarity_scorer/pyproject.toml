@@ -9,7 +9,7 @@ packages = [{include = "similarity_scorer"}]
 [tool.poetry.dependencies]
 python = ">=3.9,<3.11"
 article_recommendation_client = { git = "https://github.com/dimafeng/article-recommendation.git", subdirectory = "client" }
-autogluon = "^0.7.0"
+autogluon-tabular = {extras = ["catboost", "lightgbm"], version = "^0.7.0"}
 
 
 [build-system]
