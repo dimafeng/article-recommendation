@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "article-recommendation-client"
+name = "article_recommendation_client"
 version = "0.1.0"
 description = ""
 authors = ["dimafeng <dimafeng@gmail.com>"]
