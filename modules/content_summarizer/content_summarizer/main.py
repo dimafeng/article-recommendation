@@ -1,6 +1,6 @@
 import os
 import time
-from api import API
+from article_recommendation_client.api import API
 from summarizer import Summarizer
 
 def process_events(api: API, summarizer: Summarizer):

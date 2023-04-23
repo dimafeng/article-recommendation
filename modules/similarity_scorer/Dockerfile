@@ -6,4 +6,4 @@ COPY . /app
 
 RUN pip install poetry && poetry config virtualenvs.create false && poetry install --no-dev --no-interaction --no-ansi
 
-CMD ["poetry", "run", "python", "/app/content_summarizer/main.py"]
+CMD ["poetry", "run", "python", "/app/similarity_scorer/main.py"]

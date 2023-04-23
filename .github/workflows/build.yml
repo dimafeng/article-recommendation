@@ -28,10 +28,16 @@ jobs:
           push: ${{ github.ref == 'refs/heads/master' }}
           tags: dimafeng/article-recommendation:latest
 
-      # -
-      #   name: Build and push - Content Summarization
-      #   uses: docker/build-push-action@v4
-      #   with:
-      #     context: "{{defaultContext}}:modules/content_summarizer"
-      #     push: ${{ github.ref == 'refs/heads/master' }}
-      #     tags: dimafeng/article-recommendation-summarizer:latest
+      - name: Build and push - Content Summarization
+        uses: docker/build-push-action@v4
+        with:
+          context: "{{defaultContext}}:modules/content_summarizer"
+          push: ${{ github.ref == 'refs/heads/master' }}
+          tags: dimafeng/article-recommendation-summarizer:latest
+
+      - name: Build and push - Similarity Scorer
+        uses: docker/build-push-action@v4
+        with:
+          context: "{{defaultContext}}:modules/similarity_scorer"
+          push: ${{ github.ref == 'refs/heads/master' }}
+          tags: dimafeng/article-recommendation-similarity-scorer:latest
