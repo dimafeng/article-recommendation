@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "similarity-scorer"
+version = "0.1.0"
+description = ""
+authors = ["dimafeng <dimafeng@gmail.com>"]
+readme = "README.md"
+packages = [{include = "similarity_scorer"}]
+
+[tool.poetry.dependencies]
+python = ">=3.9,<3.11"
+article_recommendation_client = { git = "https://github.com/dimafeng/article-recommendation.git", subdirectory = "client" }
+autogluon = "^0.7.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

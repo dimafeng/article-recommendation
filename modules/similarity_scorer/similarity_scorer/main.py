@@ -1,6 +1,6 @@
 import os
 import time
-from api import API
+from article_recommendation_client.api import API
 from autogluon.tabular import TabularDataset, TabularPredictor
 import pandas as pd
 import json
