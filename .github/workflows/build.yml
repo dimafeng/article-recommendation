@@ -20,16 +20,13 @@ jobs:
         with:
           username: ${{ secrets.REGISTRY_USERNAME }}
           password: ${{ secrets.REGISTRY_TOKEN }}
-
-      - name: Build and Publish Core
-        run: make build-and-publish-core
-
-      # -
-      #   name: Build and push - Core
-      #   uses: docker/build-push-action@v4
-      #   with:
-      #     push: ${{ github.ref == 'refs/heads/master' }}
-      #     tags: dimafeng/article-recommendation:latest
+      -
+        name: Build and push - Core
+        uses: docker/build-push-action@v4
+        with:
+          context: "{{defaultContext}}:core"
+          push: ${{ github.ref == 'refs/heads/master' }}
+          tags: dimafeng/article-recommendation:latest
 
       # -
       #   name: Build and push - Content Summarization
