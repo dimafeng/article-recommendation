@@ -1,13 +1,19 @@
 version: '3'
 services:
   notebook:
-    image: datamachines/jupyter_to:2.8.0_4.5.5-20220318
+    image: intel/intel-optimized-pytorch:pip-ipex-1.13.100-ubuntu-22.04
     deploy:
       resources:
           limits:
             cpus: '8'
             memory: 16384M
+    command: >
+            bash -c "pip install poetry 
+            && poetry config virtualenvs.create false 
+            && poetry install --no-interaction --no-ansi 
+            && poetry run jupyter notebook --ip 0.0.0.0 --no-browser --allow-root"
+    working_dir: /root
     ports:
       - "8888:8888"
     volumes:
-      - ./:/dmc
+      - ./:/root

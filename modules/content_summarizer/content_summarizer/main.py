@@ -1,7 +1,7 @@
 import os
 import time
 from article_recommendation_client.api import API
-from summarizer import Summarizer
+from content_summarizer.summarizer import Summarizer
 
 def process_events(api: API, summarizer: Summarizer):
     with api.load_events('content_summarizer', 'content_updated') as events:
