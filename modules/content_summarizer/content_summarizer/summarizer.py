@@ -32,20 +32,24 @@ class Summarizer():
         Returns:
             str: Summarized text.
         """
-        if text is None or len(text) == 0:
-            return None
-        
-        if len(text) < self.MAX_SUMMARY_LENGTH:
-            return text
-
-        summary = text
-        step = 0
-        while len(summary) > self.MAX_SUMMARY_LENGTH:
-            print(f'Summarizing (step {step} - length {len(summary)})...')
-            summary = self.__summarize_long_text(summary)
-            
-            if step > 3:
+        try:
+            if text is None or len(text) == 0:
                 return None
-            step += 1
+            
+            if len(text) < self.MAX_SUMMARY_LENGTH:
+                return text
 
-        return summary
+            summary = text
+            step = 0
+            while len(summary) > self.MAX_SUMMARY_LENGTH:
+                print(f'Summarizing (step {step} - length {len(summary)})...')
+                summary = self.__summarize_long_text(summary)
+                
+                if step > 3:
+                    return None
+                step += 1
+
+            return summary
+        except Exception as e:
+            print(e)
+            return None
