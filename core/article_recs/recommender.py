@@ -28,7 +28,8 @@ def main(context: Context):
     for setting in settings:
         candidates = sort_candidates_by_score(candidates)
 
-        for candidate in candidates[:setting["number_of_recommendations"]]:
+        candidates_to_send = candidates[:setting["number_of_recommendations"]]
+        for candidate in candidates_to_send:
             send_message(context, candidate.content_id, setting["emoji"])
             context.database.update_content(candidate.content_id, {
                 "sent": True, 
@@ -37,6 +38,9 @@ def main(context: Context):
                 "sent_recommender_score": candidate.scores.get(setting["score_name"], 0)
                 })
             context.database.delete_candidate(candidate.content_id)
+        
+        candidates = candidates[setting["number_of_recommendations"]:]
+
 
 
 def sort_candidates_by_score(candidates, score_name="time_weighted_score"):
@@ -49,7 +53,7 @@ def send_message(context: Context, content_id: str, emoji: str = ""):
     summary = shorten_text(content.data.get("summary", None), 400)
 
     logging.info("Sending message")
-    text = f"{content.title}"
+    text = f"{emoji} {content.title}"
     if summary != None:
         text += f"\n\n{summary}"
     text += f"\n\n{content.url}"
