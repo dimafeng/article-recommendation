@@ -4,7 +4,7 @@ import logging
 from sqlalchemy import Integer, create_engine  
 from sqlalchemy import Table, Column, String, MetaData
 from sqlalchemy.orm import declarative_base, sessionmaker
-from article_recs.db.models import Base, Candidate, Content, Event, EventConsumer, Signal
+from article_recs.db.models import Base, Candidate, Content, Event, EventConsumer, Settings, Signal
 
 
 def merge_dicts(x, y):
@@ -139,3 +139,11 @@ class Database(object):
             for candidate in candidates:
                 session.delete(candidate)
             session.commit()
+
+    def get_settings_by_name(self, name: str, default_value: dict) -> dict:
+        with self.Session() as session:
+            settings = session.query(Settings).filter(Settings.name == name).first()
+            if settings is None:
+                return default_value
+            else:
+                return settings.value

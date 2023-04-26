@@ -1,15 +1,13 @@
 from asyncio.log import logger
 import time
 from article_recs.context import Context
-from article_recs.recommenders.scorer import Scorer
 
 
 def seconds_to_hours(seconds):
     return seconds / 3600
 
-class MostPopularScorer(Scorer):
+class MostPopularScorer():
     def __init__(self, context: Context):
-        super().__init__(context)
         self._database = context.database
 
     def score(self):

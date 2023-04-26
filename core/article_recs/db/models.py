@@ -5,25 +5,6 @@ from sqlalchemy.dialects.postgresql import JSONB
 
 Base = declarative_base()
 
-# class Value(Base):
-#     __tablename__ = "values"
-
-#     id = Column(String, primary_key=True)
-#     field_name = Column(String, primary_key=True)
-#     string_value = Column(String)
-#     int_value = Column(Integer)
-#     decimal_value = Column(Numeric)
-#     text_value = Column(Text)
-#     updated = Column(DateTime, default=datetime.datetime.utcnow, onupdate=datetime.datetime.utcnow)
-#     created = Column(DateTime, default=datetime.datetime.utcnow, onupdate=datetime.datetime.utcnow)
-
-    # def __repr__(self):
-    #     return "<User(name='%s', fullname='%s', nickname='%s')>" % (
-    #         self.name,
-    #         self.fullname,
-    #         self.nickname,
-    #     )
-
 class Content(Base):
     __tablename__ = "content"
 
@@ -67,5 +48,13 @@ class Candidate(Base):
 
     content_id = Column(String,  primary_key=True)
     scores = Column(JSONB)
+    updated = Column(DateTime, default=datetime.datetime.utcnow, onupdate=datetime.datetime.utcnow)
+    created = Column(DateTime, default=datetime.datetime.utcnow, onupdate=datetime.datetime.utcnow)
+
+class Settings(Base):
+    __tablename__ = "settings"
+
+    name = Column(String, primary_key=True)
+    value = Column(JSONB)
     updated = Column(DateTime, default=datetime.datetime.utcnow, onupdate=datetime.datetime.utcnow)
     created = Column(DateTime, default=datetime.datetime.utcnow, onupdate=datetime.datetime.utcnow)

@@ -64,7 +64,8 @@ class Context:
         else:
             self.telegram_target = TelegramTarget(token, chat_id, self.messageHandler)
 
+        # configs
+        self.enable_background_tasks = os.environ.get("ENABLE_BACKGROUND_TASKS", "true") == "true"
+
     def start_telegram_target(self):
         self.telegram_target.start()
-
-    
