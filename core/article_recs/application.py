@@ -20,16 +20,19 @@ def main():
     
     context = Context()
     
-    schedule.every(2).hours.do(exception_handler_wrapper(lambda: crawler.main(context)))
-    schedule.every(2).hours.do(exception_handler_wrapper(lambda: crawler_reddit.main(context)))
-    schedule.every(3).minutes.do(exception_handler_wrapper(lambda: content_extractor.main(context)))
-    schedule.every(10).minutes.do(exception_handler_wrapper(lambda: candidate_generator.main(context)))
-    schedule.every(60).minutes.do(exception_handler_wrapper(lambda: recommender.main(context)))
+    if context.enable_background_tasks:
+        logging.info("Background tasks enabled")
+        schedule.every(2).hours.do(exception_handler_wrapper(lambda: crawler.main(context)))
+        schedule.every(2).hours.do(exception_handler_wrapper(lambda: crawler_reddit.main(context)))
+        schedule.every(3).minutes.do(exception_handler_wrapper(lambda: content_extractor.main(context)))
+        schedule.every(10).minutes.do(exception_handler_wrapper(lambda: candidate_generator.main(context)))
+        schedule.every(60).minutes.do(exception_handler_wrapper(lambda: recommender.main(context)))
 
-    # start telegram target in the background thread
-    threading.Thread(target=context.start_telegram_target).start()
-    threading.Thread(target=run_pending).start()
+        # start telegram target in the background thread
+        threading.Thread(target=context.start_telegram_target).start()
+        threading.Thread(target=run_pending).start()
 
+    logging.info("Starting web server")
     Controller(context)
     uvicorn.run(context.app, host="0.0.0.0", port=8000)
 
