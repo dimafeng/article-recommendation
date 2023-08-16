@@ -17,6 +17,7 @@ uvicorn = "^0.20.0"
 selenium = "^4.8.2"
 lxml = "^4.9.2"
 newspaper3k = "^0.2.8"
+strawberry-graphql = {extras = ["fastapi"], version = "^0.175.1"}
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"

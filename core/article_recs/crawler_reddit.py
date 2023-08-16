@@ -2,7 +2,6 @@ import logging
 import time
 import requests
 import json
-from sqlalchemy import create_engine
 from article_recs.context import Context
 
 from article_recs.db.db import Database
@@ -21,8 +20,9 @@ reddits = [
 def main(context: Context):
     logging.info("Starting crawler")
 
-    for reddit in reddits:
-        logging.info(f"Crawling https://www.reddit.com/r/{reddit}/top.json?limit=100")
+    sub_reddits = context.database.get_settings_by_name("reddit_subreddits", reddits)
+
+    for reddit in sub_reddits:
         posts = get_reddit_json(f"https://www.reddit.com/r/{reddit}/top.json?limit=100")
 
         print(posts)
